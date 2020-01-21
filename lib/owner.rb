@@ -35,8 +35,10 @@ class Owner
   end
 
   def walk_dogs
-    dog.all.mood = "happy"
-  end
+    Dog.all.each do |d|
+      Dog.mood = "happy"
+    end
+   end
 
   def feed_cats
     @@pets[:cats].select do |cat|
