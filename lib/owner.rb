@@ -57,9 +57,7 @@ class Owner
   end
 
   def list_pets
-    @@pets.each do |pets|
-      puts pets.name
-    end
+    @@pets
   end
 
   def self.all
