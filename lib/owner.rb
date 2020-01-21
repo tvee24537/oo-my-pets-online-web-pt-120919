@@ -41,8 +41,8 @@ class Owner
    end
 
   def feed_cats
-    @@pets[:cats].select do |cat|
-      cat.mood = "happy"
+    Cat.all.each do |c|
+      c.mood = "happy"
     end
   end
 
