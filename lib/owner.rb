@@ -6,47 +6,57 @@ class Owner
   def initialize(name, species = "human")
     @species = species
     @@all << self
-    @pets = {:dogs => [], :cats => []}
+    @@pets = {:dogs => [], :cats => []}
     @name = name
   end
 
   def say_species
     return "I am a #{@species}."
   end
+  
+	def dogs
+	  Dog.all.select do |d|
+	    d.owner == self
+	  end
+	end
 
-  def buy_dog(name_of_dog)
-    @pets[:dogs] << Dog.new(name_of_dog)
-  end
-
-  def buy_cat(name_of_cat)
-    @pets[:cats] << Cat.new(name_of_cat)
-  end
-
-  def walk_dogs
-    @pets[:dogs].each do |dog|
-      dog.mood = "happy"
+  def cats
+    Cat.all.select do |c|
+      c.owner == self
     end
   end
 
+  def buy_cat(name)
+    Cat.new(name, self)
+  end
+  
+  def buy_dog(name)
+    Dog.new(name, self)
+  end
+
+  def walk_dogs
+    Dog.all.each do |d|
+      d.mood = "happy"
+    end
+   end
+
   def feed_cats
-    @pets[:cats].each do |cat|
-      cat.mood = "happy"
+    Cat.all.each do |c|
+      c.mood = "happy"
     end
   end
 
   def sell_pets
-    @pets.collect do |species, instances|
-      instances.each do |pet|
-        pet.mood = "nervous"
-      end
-      instances.clear
-    end
+    all_pets = []
+    all_pets = cats + dogs
+    all_pets.each do |p|
+      p.owner = nil
+      p.mood = "nervous"
+    end 
   end
 
   def list_pets
-    num_dogs = @pets[:dogs].size
-    num_cats = @pets[:cats].size
-    return "I have #{num_dogs} dog(s), and #{num_cats} cat(s)."
+		"I have #{dogs.count} dog(s), and #{cats.count} cat(s)."
   end
 
   def self.all
